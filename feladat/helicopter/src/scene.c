@@ -1,21 +1,27 @@
 #include "scene.h"
+#include "obj/load.h"
+#include "obj/draw.h"
 
 #include <GL/glut.h>
 
 void init_scene(Scene *scene)
 {
+    load_model(&scene->aircraft.model, "models/aircraft.obj");
+    set_rotation(&scene->aircraft, 0, 0, 0);
+    set_position(&scene->aircraft, 0, 0, 0);
 }
 
 void draw_scene(const Scene *scene)
 {
     int i, j, k;
     draw_origin();
+    /*
 
-    for (i = 0; i < 6; i++)
+    for (i = 0; i < 7; i++)
     {
-        for (j = 0; j < 6; j++)
+        for (j = 0; j < 7; j++)
         {
-            for (k = 0; k < 6; k++)
+            for (k = 0; k < 7; k++)
             {
                 glPushMatrix();
                 glTranslatef(i-3, j-3, k-3);
@@ -24,11 +30,8 @@ void draw_scene(const Scene *scene)
             }
         }
     }
-
-    glPushMatrix();
-    glTranslatef(i, j, k);
-    draw_sphere();
-    glPopMatrix();
+*/
+  draw_object(&scene->aircraft);
 }
 
 void draw_origin()

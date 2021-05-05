@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 {
     glutInit(&argc, argv);
 
-    glutInitWindowSize(640, 480);     
+    glutInitWindowSize(1280, 960);     
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 
     int window = glutCreateWindow("Scene with a camera");

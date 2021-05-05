@@ -90,10 +90,10 @@ void ProcessSpecialKeys(unsigned char key, int x, int y)
         set_camera_vertical_speed(&camera, -speed);
         break;
     case GLUT_KEY_LEFT:
-        rotate_camera(&camera, speed, 0, 0);
+        rotate_camera(&camera, 3 * speed, 0, 0);
         break;
     case GLUT_KEY_RIGHT:
-        rotate_camera(&camera, -speed, 0, 0);
+        rotate_camera(&camera, -3 * speed, 0, 0);
         break;
     }
 

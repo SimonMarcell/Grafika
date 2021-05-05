@@ -2,10 +2,12 @@
 #define SCENE_H
 
 #include "camera.h"
+#include "object.h"
 
 typedef struct Scene
 {
     // NOTE: Place for model structures and texture ids.
+    Object aircraft;
 } Scene;
 
 /**

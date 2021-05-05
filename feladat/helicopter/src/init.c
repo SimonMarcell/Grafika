@@ -6,6 +6,8 @@ void init_opengl()
 {
     glShadeModel(GL_SMOOTH);
 
+    glDisable(GL_CULL_FACE);
+
     glEnable(GL_NORMALIZE);
     glEnable(GL_AUTO_NORMAL);
 
