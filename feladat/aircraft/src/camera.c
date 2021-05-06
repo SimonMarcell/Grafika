@@ -1,5 +1,4 @@
 #include "camera.h"
-
 #include <GL/glut.h>
 
 #include <math.h>
@@ -8,7 +7,7 @@ void init_camera(Camera* camera)
 {
     camera->position.x = -10;
     camera->position.y = 0.0;
-    camera->position.z = 2;
+    camera->position.z = 5;
     camera->rotation.x = 0.0;
     camera->rotation.y = 0.0;
     camera->rotation.z = 0.0;
@@ -19,6 +18,7 @@ void init_camera(Camera* camera)
 
 void update_camera(Camera* camera, double time)
 {
+    
     double angle;
     double side_angle;
     double third_angle;
@@ -32,7 +32,6 @@ void update_camera(Camera* camera, double time)
     // camera->position.x += cos(third_angle) * cos(side_angle) * camera->speed.x * time;
     // camera->position.y += cos(third_angle) * sin(side_angle) * camera->speed.x * time;
     camera->position.z += camera->speed.z * time;
-
 }
 
 void set_view(const Camera* camera)

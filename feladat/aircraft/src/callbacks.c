@@ -13,6 +13,9 @@ void display()
     draw_scene(&scene);
 
     glPopMatrix();
+    if (is_preview_visible) {
+        show_texture_preview(&scene);
+    }
     glutSwapBuffers();
 }
 
@@ -55,15 +58,23 @@ void keyboard(unsigned char key, int x, int y)
     switch (key) {
     case 'w':
         set_camera_speed(&camera, speed);
+        set_object_position_speed(&scene.aircraft, 0, 0, -speed);
         break;
     case 's':
         set_camera_speed(&camera, -speed);
+        set_object_position_speed(&scene.aircraft, 0, 0, speed);
         break;
     case 'i':
-        translate(&scene.aircraft, 0, 0, 0.04);
+        set_object_position_speed(&scene.aircraft, 0, 0, speed);
         break;
     case 'k':
-        translate(&scene.aircraft, 0, 0, -0.04);
+        set_object_position_speed(&scene.aircraft, 0, 0, -speed);
+        break;
+    case '+':
+        change_lighting(&scene, 0.1);
+        break;
+    case '-':
+        change_lighting(&scene, -0.1);
         break;
     }
 
@@ -78,6 +89,11 @@ void keyboard_up(unsigned char key, int x, int y)
     case 'w':
     case 's':
         set_camera_speed(&camera, 0.0);
+        set_object_position_speed(&scene.aircraft, 0, 0, 0);
+        break;
+    case 'i':
+    case 'k':
+        set_object_position_speed(&scene.aircraft, 0, 0, 0);
         break;
     }
 
@@ -91,15 +107,27 @@ void ProcessSpecialKeys(unsigned char key, int x, int y)
     switch (key) {
     case GLUT_KEY_UP:
         set_camera_vertical_speed(&camera, speed);
+        set_object_position_speed(&scene.aircraft, 0, speed, 0);
         break;
     case GLUT_KEY_DOWN:
         set_camera_vertical_speed(&camera, -speed);
+        set_object_position_speed(&scene.aircraft, 0, -speed, 0);
         break;
     case GLUT_KEY_LEFT:
-        rotate_camera(&camera, 3 * speed, 0, 0);
+        // rotate_camera(&camera, 3 * speed, 0, 0);
+        set_object_rotation_speed(&scene.aircraft, 0, 30*speed, 0);
         break;
     case GLUT_KEY_RIGHT:
-        rotate_camera(&camera, -3 * speed, 0, 0);
+        // rotate_camera(&camera, -3 * speed, 0, 0);
+        set_object_rotation_speed(&scene.aircraft, 0, 0, -3 * speed);
+        break;
+    case GLUT_KEY_F1:
+        if (is_preview_visible) {
+            is_preview_visible = FALSE;
+        }
+        else {
+            is_preview_visible = TRUE;
+        }
         break;
     }
 
@@ -112,11 +140,12 @@ void ReleaseSpecialKeys(unsigned char key, int x, int y)
     case GLUT_KEY_UP:
     case GLUT_KEY_DOWN:
         set_camera_vertical_speed(&camera, 0.0);
+        set_object_position_speed(&scene.aircraft, 0, 0, 0);
         break;
-    // case GLUT_KEY_LEFT:
-    // case GLUT_KEY_RIGHT:
-    //     set_camera_side_speed(&camera, 0.0);
-    //     break;
+    case GLUT_KEY_LEFT:
+    case GLUT_KEY_RIGHT:
+        set_object_rotation_speed(&scene.aircraft, 0, 0, 0);
+        break;
     }
 
     glutPostRedisplay();
@@ -133,6 +162,7 @@ void idle()
     last_frame_time = current_time;
 
     update_camera(&camera, elapsed_time);
+    update_scene(&scene, elapsed_time);
 
     glutPostRedisplay();
 }

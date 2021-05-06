@@ -33,8 +33,25 @@ void translate(Object* object, float x, float y, float z){
     object->position.z += z;
 }
 
+void set_object_position_speed(Object* object, double x_speed, double y_speed, double z_speed){
+    object->position_speed.x = x_speed;
+    object->position_speed.y = y_speed;
+    object->position_speed.z = z_speed;
+}
+
 void rotate(Object* object, float x, float y, float z){
     object->rotation.x += x;
     object->rotation.y += y;
     object->rotation.z += z;
+}
+
+void set_object_rotation_speed(Object* object, double x_speed, double y_speed, double z_speed){
+    object->rotation_speed.x = x_speed;
+    object->rotation_speed.y = y_speed;
+    object->rotation_speed.z = z_speed;
+}
+
+void update_object(Object* object, double time){
+    translate(object, object->position_speed.x * time, object->position_speed.y * time, object->position_speed.z * time);
+    rotate(object, object->rotation_speed.x * time, object->rotation_speed.y * time, object->rotation_speed.z * time);
 }

@@ -12,6 +12,8 @@ typedef struct Object
 {
     vec3 position;
     vec3 rotation;
+    vec3 position_speed;
+    vec3 rotation_speed;
     Model model;
     GLuint texture_id;
 } Object;
@@ -37,8 +39,23 @@ void set_rotation(Object* object,  float x, float y, float z);
 void translate(Object* object, float x, float y, float z);
 
 /**
+ * Changes object position speed.
+ */
+void set_object_position_speed(Object* object, double x_speed, double y_speed, double z_speed);
+
+/**
  * Changes object rotation.
  */
 void rotate(Object* object, float x, float y, float z);
+
+/**
+ * Changes object rotation speed.
+ */
+void set_object_rotation_speed(Object* object, double x_speed, double y_speed, double z_speed);
+
+/**
+ * Updates object fields.
+ */
+void update_object(Object* object, double time);
 
 #endif /* OBJECT_H */

@@ -19,6 +19,11 @@ typedef struct Camera
 void init_camera(Camera* camera);
 
 /**
+ * Is the texture preview visible?
+ */
+int is_preview_visible;
+
+/**
  * Update the position of the camera.
  */
 void update_camera(Camera* camera, double time);
