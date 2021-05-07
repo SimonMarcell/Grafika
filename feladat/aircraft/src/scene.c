@@ -14,10 +14,10 @@ void init_scene(Scene *scene)
     set_object_rotation_speed(&scene->aircraft, 0, 0, 0);
     load_model(&scene->landscape.model, "models/landscape.obj");
     set_rotation(&scene->landscape, -90, -90, 0);
-    // scene->landscape.texture_id = load_texture("models/landscape.jpg");
+    scene->landscape.texture_id = load_texture("models/landscape.jpg");
     load_model(&scene->water.model, "models/water.obj");
     set_rotation(&scene->water, -90, -90, 0);
-    // scene->water.texture_id = load_texture("models/water.jpg"); 
+    scene->water.texture_id = load_texture("models/water.jpg"); 
     scene->helpmenu.texture_id = load_texture("models/helpmenu.jpg");
     
     scene->lighting = 0.5;
