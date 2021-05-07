@@ -4,6 +4,7 @@
 #include "utils.h"
 #include "obj/model.h"
 #include <GL/glut.h>
+#include "math.h"
 
 /**
  * Object structure.
@@ -41,7 +42,17 @@ void translate(Object* object, float x, float y, float z);
 /**
  * Changes object position speed.
  */
-void set_object_position_speed(Object* object, double x_speed, double y_speed, double z_speed);
+void set_object_xposition_speed(Object* object, double x_speed);
+
+/**
+ * Changes object position speed.
+ */
+void set_object_yposition_speed(Object* object, double y_speed);
+
+/**
+ * Changes object position speed.
+ */
+void set_object_zposition_speed(Object* object, double z_speed);
 
 /**
  * Changes object rotation.

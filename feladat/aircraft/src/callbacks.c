@@ -57,18 +57,18 @@ void keyboard(unsigned char key, int x, int y)
 
     switch (key) {
     case 'w':
-        set_camera_speed(&camera, speed);
-        set_object_position_speed(&scene.aircraft, 0, 0, -speed);
+        //set_camera_speed(&camera, speed);
+        set_object_position_xspeed(&scene.aircraft, speed);
         break;
     case 's':
-        set_camera_speed(&camera, -speed);
-        set_object_position_speed(&scene.aircraft, 0, 0, speed);
+        //set_camera_speed(&camera, -speed);
+        set_object_position_xspeed(&scene.aircraft, -speed);
         break;
     case 'i':
-        set_object_position_speed(&scene.aircraft, 0, 0, speed);
+        set_object_position_yspeed(&scene.aircraft, speed);
         break;
     case 'k':
-        set_object_position_speed(&scene.aircraft, 0, 0, -speed);
+        set_object_position_yspeed(&scene.aircraft, -speed);
         break;
     case '+':
         change_lighting(&scene, 0.1);
@@ -84,16 +84,17 @@ void keyboard(unsigned char key, int x, int y)
 void keyboard_up(unsigned char key, int x, int y)
 {
     float position;
+    const float speed = 1.0;
 
     switch (key) {
     case 'w':
     case 's':
         set_camera_speed(&camera, 0.0);
-        set_object_position_speed(&scene.aircraft, 0, 0, 0);
+        set_object_position_xspeed(&scene.aircraft, 0);
         break;
     case 'i':
     case 'k':
-        set_object_position_speed(&scene.aircraft, 0, 0, 0);
+        set_object_position_yspeed(&scene.aircraft, 0);
         break;
     }
 
@@ -107,11 +108,11 @@ void ProcessSpecialKeys(unsigned char key, int x, int y)
     switch (key) {
     case GLUT_KEY_UP:
         set_camera_vertical_speed(&camera, speed);
-        set_object_position_speed(&scene.aircraft, 0, speed, 0);
+        set_object_position_zspeed(&scene.aircraft, speed);
         break;
     case GLUT_KEY_DOWN:
         set_camera_vertical_speed(&camera, -speed);
-        set_object_position_speed(&scene.aircraft, 0, -speed, 0);
+        set_object_position_zspeed(&scene.aircraft, -speed);
         break;
     case GLUT_KEY_LEFT:
         // rotate_camera(&camera, 3 * speed, 0, 0);
@@ -119,7 +120,7 @@ void ProcessSpecialKeys(unsigned char key, int x, int y)
         break;
     case GLUT_KEY_RIGHT:
         // rotate_camera(&camera, -3 * speed, 0, 0);
-        set_object_rotation_speed(&scene.aircraft, 0, 0, -3 * speed);
+        set_object_rotation_speed(&scene.aircraft, 0, -30*speed, 0);
         break;
     case GLUT_KEY_F1:
         if (is_preview_visible) {
@@ -136,13 +137,17 @@ void ProcessSpecialKeys(unsigned char key, int x, int y)
 
 void ReleaseSpecialKeys(unsigned char key, int x, int y)
 {
+    const float speed = 1.0;
+
     switch (key) {
     case GLUT_KEY_UP:
     case GLUT_KEY_DOWN:
         set_camera_vertical_speed(&camera, 0.0);
-        set_object_position_speed(&scene.aircraft, 0, 0, 0);
+        set_object_position_zspeed(&scene.aircraft, 0);
         break;
     case GLUT_KEY_LEFT:
+        set_object_rotation_speed(&scene.aircraft, 0, 0, 0);
+        break;
     case GLUT_KEY_RIGHT:
         set_object_rotation_speed(&scene.aircraft, 0, 0, 0);
         break;
