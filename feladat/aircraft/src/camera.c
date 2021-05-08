@@ -32,6 +32,8 @@ void update_camera(Camera* camera, double time)
     // camera->position.y += cos(third_angle) * sin(side_angle) * camera->speed.x * time;
     camera->position.z += camera->position_speed.z * time;
     rotate_camera(camera, camera->rotation_speed.x * time, camera->rotation_speed.y * time, camera->rotation_speed.z * time);
+
+    printf("camera y position: %f\n", camera->position.y);
 }
 
 void move_camera_to_aircraft(Camera* camera){
@@ -164,5 +166,10 @@ void rotate_camera(Camera* camera, float x, float y, float z){
 void set_camera_rotation_speed(Camera* camera, double x_speed, double y_speed, double z_speed){
     camera->rotation_speed.x = x_speed;
     camera->rotation_speed.y = y_speed;
+    camera->rotation_speed.z = z_speed;
+}
+
+void asdasd(Camera* camera, double z_speed, double x_speed){
+    camera->position_speed.x = x_speed;
     camera->rotation_speed.z = z_speed;
 }

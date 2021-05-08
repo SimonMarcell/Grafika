@@ -73,6 +73,8 @@ void draw_scene(const Scene *scene)
             }
         }
     }
+    // printf("object z position: %f\n", scene->aircraft.position.z);
+    // printf("object y rotation: %f\n", scene->aircraft.rotation.y + 90.0);
 
 }
 
@@ -139,10 +141,10 @@ void move_camera_behind_object(Camera* camera, Object* object){
     double angle;
     angle = degree_to_radian(object->rotation.y + 90.0);
 
-    camera->rotation.x = object->rotation.y;
-    camera->rotation.y = object->rotation.x;
-    camera->rotation.z = object->rotation.z;
-    camera->position.x = object->position.x - 10;
-    camera->position.y = object->position.x;
+    camera->rotation.x = object->rotation.x - 90;
+    camera->rotation.y = object->rotation.z;
+    camera->rotation.z = object->rotation.y + 90;
+    camera->position.x = object->position.x - 10*cos(angle);
+    camera->position.y = object->position.y - 10*sin(angle);
     camera->position.z = object->position.z + 2;
 }

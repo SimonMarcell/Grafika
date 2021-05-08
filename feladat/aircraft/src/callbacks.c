@@ -73,9 +73,9 @@ void keyboard(unsigned char key, int x, int y)
         set_object_position_yspeed(&scene.aircraft, -speed);
         set_camera_position_xspeed(&camera, -speed);
         break;
-    //case 'l':
-    //    move_camera_behind_object(&camera, &scene.aircraft);
-    //   break;
+    case 'l':
+       move_camera_behind_object(&camera, &scene.aircraft);
+      break;
     case '+':
         change_lighting(&scene, 0.1);
         break;
@@ -122,14 +122,16 @@ void ProcessSpecialKeys(unsigned char key, int x, int y)
         set_object_position_zspeed(&scene.aircraft, -speed);
         break;
     case GLUT_KEY_LEFT:
-        set_camera_rotation_speed(&camera, 0, 0, 30*speed);
+        // set_camera_position_xspeed(&camera, -2*M_PI*10/4);
+        // set_camera_rotation_speed(&camera, 0, 0, 30*speed);
+        asdasd(&camera, 30*speed, -2*M_PI*10/4);
         set_object_rotation_speed(&scene.aircraft, 0, 30*speed, 0);
-        set_camera_position_xspeed(&camera, -2*M_PI*10/4);
         break;
     case GLUT_KEY_RIGHT:
-        set_camera_rotation_speed(&camera, 0, 0, -30*speed);
+        // set_camera_position_xspeed(&camera, 2*M_PI*10/4);
+        // set_camera_rotation_speed(&camera, 0, 0, -30*speed);
+        asdasd(&camera, -30*speed, 2*M_PI*10/4);
         set_object_rotation_speed(&scene.aircraft, 0, -30*speed, 0);
-        set_camera_position_xspeed(&camera, 2*M_PI*10/4);
         break;
     case GLUT_KEY_F1:
         if (is_preview_visible) {
@@ -156,9 +158,9 @@ void ReleaseSpecialKeys(unsigned char key, int x, int y)
         break;
     case GLUT_KEY_LEFT:
     case GLUT_KEY_RIGHT:
+        set_camera_position_xspeed(&camera, 0);
         set_camera_rotation_speed(&camera, 0, 0, 0);
         set_object_rotation_speed(&scene.aircraft, 0, 0, 0);
-        set_camera_position_xspeed(&camera, 0);
         break;
     }
 
