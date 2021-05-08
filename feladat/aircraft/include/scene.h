@@ -54,4 +54,6 @@ void draw_sphere();
  */
 void show_texture_preview(Scene* scene);
 
+void move_camera_behind_object(Camera* camera, Object* object);
+
 #endif /* SCENE_H */

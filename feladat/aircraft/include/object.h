@@ -37,7 +37,7 @@ void set_rotation(Object* object,  float x, float y, float z);
 /**
  * Changes object position.
  */
-void translate(Object* object, float x, float y, float z);
+void translate_object(Object* object, float x, float y, float z);
 
 /**
  * Changes object position speed.
@@ -57,7 +57,7 @@ void set_object_zposition_speed(Object* object, double z_speed);
 /**
  * Changes object rotation.
  */
-void rotate(Object* object, float x, float y, float z);
+void rotate_object(Object* object, float x, float y, float z);
 
 /**
  * Changes object rotation speed.

@@ -1,4 +1,5 @@
 #include "callbacks.h"
+#include <math.h>
 
 #define VIEWPORT_RATIO (4.0 / 3.0)
 #define VIEWPORT_ASPECT 50.0
@@ -53,23 +54,28 @@ void motion(int x, int y)
 void keyboard(unsigned char key, int x, int y)
 {
     float position;
-    const float speed = 1.0;
+    const double speed = 3.0;
 
     switch (key) {
     case 'w':
-        //set_camera_speed(&camera, speed);
+        set_camera_position_yspeed(&camera, speed);
         set_object_position_xspeed(&scene.aircraft, speed);
         break;
     case 's':
-        //set_camera_speed(&camera, -speed);
+        set_camera_position_yspeed(&camera, -speed);
         set_object_position_xspeed(&scene.aircraft, -speed);
         break;
     case 'i':
         set_object_position_yspeed(&scene.aircraft, speed);
+        set_camera_position_xspeed(&camera, speed);
         break;
     case 'k':
         set_object_position_yspeed(&scene.aircraft, -speed);
+        set_camera_position_xspeed(&camera, -speed);
         break;
+    //case 'l':
+    //    move_camera_behind_object(&camera, &scene.aircraft);
+    //   break;
     case '+':
         change_lighting(&scene, 0.1);
         break;
@@ -84,17 +90,18 @@ void keyboard(unsigned char key, int x, int y)
 void keyboard_up(unsigned char key, int x, int y)
 {
     float position;
-    const float speed = 1.0;
+    const double speed = 1.0;
 
     switch (key) {
     case 'w':
     case 's':
-        set_camera_speed(&camera, 0.0);
+        set_camera_position_yspeed(&camera, 0.0);
         set_object_position_xspeed(&scene.aircraft, 0);
         break;
     case 'i':
     case 'k':
         set_object_position_yspeed(&scene.aircraft, 0);
+        set_camera_position_xspeed(&camera, 0);
         break;
     }
 
@@ -103,24 +110,26 @@ void keyboard_up(unsigned char key, int x, int y)
 
 void ProcessSpecialKeys(unsigned char key, int x, int y)
 {
-    const float speed = 1.0;
+    const double speed = 3.0;
 
     switch (key) {
     case GLUT_KEY_UP:
-        set_camera_vertical_speed(&camera, speed);
+        set_camera_position_zspeed(&camera, speed);
         set_object_position_zspeed(&scene.aircraft, speed);
         break;
     case GLUT_KEY_DOWN:
-        set_camera_vertical_speed(&camera, -speed);
+        set_camera_position_zspeed(&camera, -speed);
         set_object_position_zspeed(&scene.aircraft, -speed);
         break;
     case GLUT_KEY_LEFT:
-        // rotate_camera(&camera, 3 * speed, 0, 0);
+        set_camera_rotation_speed(&camera, 0, 0, 30*speed);
         set_object_rotation_speed(&scene.aircraft, 0, 30*speed, 0);
+        set_camera_position_xspeed(&camera, -2*M_PI*10/4);
         break;
     case GLUT_KEY_RIGHT:
-        // rotate_camera(&camera, -3 * speed, 0, 0);
+        set_camera_rotation_speed(&camera, 0, 0, -30*speed);
         set_object_rotation_speed(&scene.aircraft, 0, -30*speed, 0);
+        set_camera_position_xspeed(&camera, 2*M_PI*10/4);
         break;
     case GLUT_KEY_F1:
         if (is_preview_visible) {
@@ -142,14 +151,14 @@ void ReleaseSpecialKeys(unsigned char key, int x, int y)
     switch (key) {
     case GLUT_KEY_UP:
     case GLUT_KEY_DOWN:
-        set_camera_vertical_speed(&camera, 0.0);
+        set_camera_position_zspeed(&camera, 0.0);
         set_object_position_zspeed(&scene.aircraft, 0);
         break;
     case GLUT_KEY_LEFT:
-        set_object_rotation_speed(&scene.aircraft, 0, 0, 0);
-        break;
     case GLUT_KEY_RIGHT:
+        set_camera_rotation_speed(&camera, 0, 0, 0);
         set_object_rotation_speed(&scene.aircraft, 0, 0, 0);
+        set_camera_position_xspeed(&camera, 0);
         break;
     }
 

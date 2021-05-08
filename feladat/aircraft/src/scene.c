@@ -134,3 +134,15 @@ void show_texture_preview(Scene* scene)
     glEnable(GL_LIGHTING);
     glEnable(GL_DEPTH_TEST);
 }
+
+void move_camera_behind_object(Camera* camera, Object* object){
+    double angle;
+    angle = degree_to_radian(object->rotation.y + 90.0);
+
+    camera->rotation.x = object->rotation.y;
+    camera->rotation.y = object->rotation.x;
+    camera->rotation.z = object->rotation.z;
+    camera->position.x = object->position.x - 10;
+    camera->position.y = object->position.x;
+    camera->position.z = object->position.z + 2;
+}
