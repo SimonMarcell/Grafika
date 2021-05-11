@@ -27,6 +27,8 @@ void init_scene(Scene *scene)
     
     scene->lighting = 0.5;
     scene->fog_density = 0.0;
+
+    init_skybox(&scene->skybox);
 }
 
 void set_lighting(const float lighting){
@@ -57,7 +59,9 @@ void draw_scene(const Scene *scene)
     draw_object(&scene->aircraft);
     draw_object(&scene->landscape);
     draw_object(&scene->water);
+    draw_skybox(&scene->skybox);
     draw_origin();
+    draw_skybox(&scene->skybox);
     set_lighting(scene->lighting);
     if(scene->fog_density>0){
         draw_fog(scene->fog_density);

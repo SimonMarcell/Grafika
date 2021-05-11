@@ -3,6 +3,7 @@
 
 #include "camera.h"
 #include "object.h"
+#include "skybox.h"
 
 typedef struct Scene
 {
@@ -12,6 +13,7 @@ typedef struct Scene
     Object helpmenu;
     float lighting;
     float fog_density;
+    Skybox skybox;
 } Scene;
 
 /**
