@@ -5,15 +5,25 @@
 #include "object.h"
 #include "skybox.h"
 
+typedef struct Light
+{
+    vec3 position;
+    vec3 colour;
+    vec3 ambientcolour;
+} Light;
+
 typedef struct Scene
 {
     Object aircraft;
     Object landscape;
     Object water;
     Object helpmenu;
-    float lighting;
     float fog_density;
     Skybox skybox;
+    Camera camera;
+    Light leftlight;
+    Light rightlight;
+    Light ambientlight;
 } Scene;
 
 /**
@@ -29,7 +39,7 @@ void draw_scene(const Scene* scene);
 /**
  * Set the lighting.
  */
-void set_lighting(const float lighting);
+void set_lighting(GLuint lightindex, Light* light);
 
 /**
  * Change the lighting.
@@ -49,7 +59,7 @@ void draw_origin();
 /**
  * Draw a sphere.
  */
-void draw_sphere();
+void draw_sphere(float x, float y, float z);
 
 /**
  * Shows texture preview.

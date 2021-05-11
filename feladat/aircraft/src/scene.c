@@ -25,44 +25,56 @@ void init_scene(Scene *scene)
 
     scene->helpmenu.texture_id = load_texture("models/helpmenu.jpg");
     
-    scene->lighting = 0.5;
     scene->fog_density = 0.0;
 
     init_skybox(&scene->skybox);
+
+    scene->leftlight.position.x = 0.63f;
+    scene->leftlight.position.y = -2.0f;
+    scene->leftlight.position.z = 3.5f;
+    scene->leftlight.colour.x = 0.7;
+    scene->leftlight.colour.y = 0.1;
+    scene->leftlight.colour.z = 0.3;
 }
 
-void set_lighting(const float lighting){
-    float ambient_light[] = { lighting, lighting, lighting, 1.0f };
-    float diffuse_light[] = { lighting, lighting, lighting, 1.0f };
-    float specular_light[] = { lighting, lighting, lighting, 1.0f };
-    float position[] = { 0.0f, 0.0f, 10.0f, 1.0f };
+void set_lighting(GLuint lightindex, Light* light){
+    // float ambient_light[] = { light.ambientcolour.x, light.ambientcolour.y, light.ambientcolour.z, 1.0f };
+    // float diffuse_light[] = { lighting, lighting, lighting, 1.0f };
+    // float specular_light[] = { lighting, lighting, lighting, 1.0f };
+    // float position[] = { 0.0f, 0.0f, 10.0f, 1.0f };
 
-    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_light);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse_light);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, specular_light);
-    glLightfv(GL_LIGHT0, GL_POSITION, position);
+    glLightfv(lightindex, GL_AMBIENT, &light->ambientcolour);
+    glLightfv(lightindex, GL_DIFFUSE, &light->colour);
+    glLightfv(lightindex, GL_SPECULAR, &light->colour);
+    glLightfv(lightindex, GL_POSITION, &light->position);
 }
 
 void change_lighting(Scene *scene, float change){
-    scene->lighting += change;
-    if (scene->lighting < 0) {
-        scene->lighting = 0;
+    scene->ambientlight.ambientcolour.x += change;
+    scene->ambientlight.ambientcolour.y += change;
+    scene->ambientlight.ambientcolour.z += change;
+    if (scene->ambientlight.ambientcolour.x < 0) {
+        scene->ambientlight.ambientcolour.x = 0;
+        scene->ambientlight.ambientcolour.y = 0;
+        scene->ambientlight.ambientcolour.z = 0;
     }
-    if (scene->lighting > 1) {
-        scene->lighting = 1;
+    if (scene->ambientlight.ambientcolour.x > 1) {
+        scene->ambientlight.ambientcolour.x = 1;
+        scene->ambientlight.ambientcolour.y = 1;
+        scene->ambientlight.ambientcolour.z = 1;
     }
 }
 
 void draw_scene(const Scene *scene)
 {
-    int i, j, k;
+    glEnable(GL_LIGHT1);
     draw_object(&scene->aircraft);
+    glDisable(GL_LIGHT1);
     draw_object(&scene->landscape);
     draw_object(&scene->water);
     draw_skybox(&scene->skybox);
-    draw_origin();
-    draw_skybox(&scene->skybox);
-    set_lighting(scene->lighting);
+    draw_sphere(-2.0f, 0.63f, 3.5f);
+    draw_sphere(-2.0f, -0.63f, 3.5f);
     if(scene->fog_density>0){
         draw_fog(scene->fog_density);
     }
@@ -71,28 +83,18 @@ void draw_scene(const Scene *scene)
         remove_fog();
     }
     
-
-    for (i = 0; i < 7; i++)
-    {
-        for (j = 0; j < 7; j++)
-        {
-            for (k = 0; k < 7; k++)
-            {
-                glPushMatrix();
-                glTranslatef(i-3, j-3, k-3);
-                draw_sphere();
-                glPopMatrix();
-            }
-        }
-    }
-    // printf("object z position: %f\n", scene->aircraft.position.z);
+    printf("object z position: %f\n", scene->aircraft.position.z);
+    printf("camera z position: %f\n", scene->camera.position.z);
     // printf("object y rotation: %f\n", scene->aircraft.rotation.y + 90.0);
-    printf("fog density: %f\n", scene->fog_density);
+    //printf("fog density: %f\n", scene->fog_density);
 
 }
 
 void update_scene(Scene* scene, double time){
     update_object(&scene->aircraft, time);
+    move_camera_behind_object(&scene->camera, &scene->aircraft);
+    set_lighting(GL_LIGHT0, &scene->ambientlight);
+    set_lighting(GL_LIGHT1, &scene->leftlight);
 }
 
 void draw_origin()
@@ -114,10 +116,11 @@ void draw_origin()
     glEnd();
 }
 
-void draw_sphere()
+void draw_sphere(float x, float y, float z)
 {
     glPushMatrix();
-    glColor3f(1.0, 0.9, 0.8);
+    glColor3f(0.7f, 0.1f, 0.1f);
+    glTranslatef(x, y, z);
     glutSolidSphere(0.1, 8, 8);
     glPopMatrix();
 }

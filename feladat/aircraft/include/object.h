@@ -42,17 +42,17 @@ void translate_object(Object* object, float x, float y, float z);
 /**
  * Changes object position speed.
  */
-void set_object_xposition_speed(Object* object, double x_speed);
+void set_object_xposition_speed(Object* object, float x_speed);
 
 /**
  * Changes object position speed.
  */
-void set_object_yposition_speed(Object* object, double y_speed);
+void set_object_yposition_speed(Object* object, float y_speed);
 
 /**
  * Changes object position speed.
  */
-void set_object_zposition_speed(Object* object, double z_speed);
+void set_object_zposition_speed(Object* object, float z_speed);
 
 /**
  * Changes object rotation.
@@ -62,7 +62,7 @@ void rotate_object(Object* object, float x, float y, float z);
 /**
  * Changes object rotation speed.
  */
-void set_object_rotation_speed(Object* object, double x_speed, double y_speed, double z_speed);
+void set_object_rotation_speed(Object* object, float x_speed, float y_speed, float z_speed);
 
 /**
  * Updates object fields.

@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
     set_callbacks();
 
     init_scene(&scene);
-    init_camera(&camera);
+    init_camera(&scene.camera);
 
     glutMainLoop();
 

@@ -12,11 +12,6 @@
 Scene scene;
 
 /**
- * Camera
- */
-Camera camera;
-
-/**
  * Call when need to display the graphical content.
  */
 void display();
@@ -57,4 +52,3 @@ void ReleaseSpecialKeys(unsigned char key, int x, int y);
 void idle();
 
 #endif // CALLBACKS_H
-

@@ -32,15 +32,15 @@ void translate_object(Object* object, float x, float y, float z){
     object->position.z += z;
 }
 
-void set_object_position_xspeed(Object* object, double x_speed){
+void set_object_position_xspeed(Object* object, float x_speed){
     object->position_speed.x = x_speed;
 }
 
-void set_object_position_yspeed(Object* object, double y_speed){
+void set_object_position_yspeed(Object* object, float y_speed){
     object->position_speed.y = y_speed;
 }
 
-void set_object_position_zspeed(Object* object, double z_speed){
+void set_object_position_zspeed(Object* object, float z_speed){
     object->position_speed.z = z_speed;
 }
 
@@ -74,7 +74,7 @@ void rotate_object(Object* object, float x, float y, float z){
     }
 }
 
-void set_object_rotation_speed(Object* object, double x_speed, double y_speed, double z_speed){
+void set_object_rotation_speed(Object* object, float x_speed, float y_speed, float z_speed){
     object->rotation_speed.x = x_speed;
     object->rotation_speed.y = y_speed;
     object->rotation_speed.z = z_speed;
