@@ -11,7 +11,7 @@ typedef struct Scene
     Object water;
     Object helpmenu;
     float lighting;
-    float fog;
+    float fog_density;
 } Scene;
 
 /**
@@ -55,5 +55,11 @@ void draw_sphere();
 void show_texture_preview(Scene* scene);
 
 void move_camera_behind_object(Camera* camera, Object* object);
+
+void draw_fog(float density);
+
+void remove_fog();
+
+void change_fog_density(Scene *scene, float change);
 
 #endif /* SCENE_H */

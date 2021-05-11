@@ -82,6 +82,12 @@ void keyboard(unsigned char key, int x, int y)
     case '-':
         change_lighting(&scene, -0.1);
         break;
+    case 't':
+        change_fog_density(&scene, 0.01);
+        break;
+    case 'z':
+        change_fog_density(&scene, -0.01);
+        break;
     }
 
     glutPostRedisplay();
@@ -122,15 +128,15 @@ void ProcessSpecialKeys(unsigned char key, int x, int y)
         set_object_position_zspeed(&scene.aircraft, -speed);
         break;
     case GLUT_KEY_LEFT:
-        // set_camera_position_xspeed(&camera, -2*M_PI*10/4);
-        // set_camera_rotation_speed(&camera, 0, 0, 30*speed);
-        asdasd(&camera, 30*speed, -2*M_PI*10/4);
+        set_camera_position_xspeed(&camera, -2*M_PI*10/(4*1.0005));
+        set_camera_rotation_speed(&camera, 0, 0, 30*speed);
+        // asdasd(&camera, 30*speed, -2*M_PI*10/4);
         set_object_rotation_speed(&scene.aircraft, 0, 30*speed, 0);
         break;
     case GLUT_KEY_RIGHT:
-        // set_camera_position_xspeed(&camera, 2*M_PI*10/4);
-        // set_camera_rotation_speed(&camera, 0, 0, -30*speed);
-        asdasd(&camera, -30*speed, 2*M_PI*10/4);
+        set_camera_position_xspeed(&camera, 2*M_PI*10/(4*1.0005));
+        set_camera_rotation_speed(&camera, 0, 0, -30*speed);
+        // asdasd(&camera, -30*speed, 2*M_PI*10/4);
         set_object_rotation_speed(&scene.aircraft, 0, -30*speed, 0);
         break;
     case GLUT_KEY_F1:

@@ -33,7 +33,7 @@ void update_camera(Camera* camera, double time)
     camera->position.z += camera->position_speed.z * time;
     rotate_camera(camera, camera->rotation_speed.x * time, camera->rotation_speed.y * time, camera->rotation_speed.z * time);
 
-    printf("camera y position: %f\n", camera->position.y);
+    //printf("camera y position: %f\n", camera->position.y);
 }
 
 void move_camera_to_aircraft(Camera* camera){

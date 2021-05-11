@@ -26,6 +26,7 @@ void init_scene(Scene *scene)
     scene->helpmenu.texture_id = load_texture("models/helpmenu.jpg");
     
     scene->lighting = 0.5;
+    scene->fog_density = 0.0;
 }
 
 void set_lighting(const float lighting){
@@ -58,6 +59,13 @@ void draw_scene(const Scene *scene)
     draw_object(&scene->water);
     draw_origin();
     set_lighting(scene->lighting);
+    if(scene->fog_density>0){
+        draw_fog(scene->fog_density);
+    }
+    else
+    {
+        remove_fog();
+    }
     
 
     for (i = 0; i < 7; i++)
@@ -75,6 +83,7 @@ void draw_scene(const Scene *scene)
     }
     // printf("object z position: %f\n", scene->aircraft.position.z);
     // printf("object y rotation: %f\n", scene->aircraft.rotation.y + 90.0);
+    printf("fog density: %f\n", scene->fog_density);
 
 }
 
@@ -135,6 +144,31 @@ void show_texture_preview(Scene* scene)
     glDisable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHTING);
     glEnable(GL_DEPTH_TEST);
+}
+
+void draw_fog(float density){
+
+        GLfloat color1[3] = {0.35, 0.2, 0.05};
+
+        glEnable(GL_FOG);
+        glFogi(GL_FOG_MODE, GL_EXP2);
+        glFogfv(GL_FOG_COLOR, color1);
+        glFogf(GL_FOG_DENSITY, density);
+        glHint(GL_FOG_HINT, GL_NICEST);
+ }
+
+void remove_fog(){
+    glDisable(GL_FOG);
+ }
+
+void change_fog_density(Scene *scene, float change){
+    scene->fog_density += change;
+    if (scene->fog_density < 0) {
+        scene->fog_density = 0;
+    }
+    if (scene->fog_density > 0.1) {
+        scene->fog_density = 0.1;
+    }
 }
 
 void move_camera_behind_object(Camera* camera, Object* object){
