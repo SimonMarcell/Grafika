@@ -1,5 +1,6 @@
 #ifndef CALLBACKS_H
 #define CALLBACKS_H
+#define _USE_MATH_DEFINES
 
 #include "camera.h"
 #include "scene.h"

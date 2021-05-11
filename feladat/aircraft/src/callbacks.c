@@ -27,14 +27,14 @@ void reshape(GLsizei width, GLsizei height)
 
     ratio = (double)width / height;
     if (ratio > VIEWPORT_RATIO) {
-        w = (int)((double)height * VIEWPORT_RATIO);
+        w = (int)((double)width * VIEWPORT_RATIO);
         h = height;
         x = (width - w) / 2;
         y = 0;
     }
     else {
         w = width;
-        h = (int)((double)width / VIEWPORT_RATIO);
+        h = (int)((double)height / VIEWPORT_RATIO);
         x = 0;
         y = (height - h) / 2;
     }
@@ -53,39 +53,58 @@ void motion(int x, int y)
 
 void keyboard(unsigned char key, int x, int y)
 {
-    float position;
     const double speed = 3.0;
 
     switch (key) {
     case 'w':
-        set_camera_position_yspeed(&camera, speed);
         set_object_position_xspeed(&scene.aircraft, speed);
         break;
     case 's':
-        set_camera_position_yspeed(&camera, -speed);
         set_object_position_xspeed(&scene.aircraft, -speed);
         break;
-    case 'i':
+    case 'a':
+        set_object_rotation_speed(&scene.aircraft, 0, 30*speed, 0);
+        break;
+    case 'd':
+        set_object_rotation_speed(&scene.aircraft, 0, -30*speed, 0);
+        break;
+    case 'q':
         set_object_position_yspeed(&scene.aircraft, speed);
+        break;
+    case 'e':
+        set_object_position_yspeed(&scene.aircraft, -speed);
+        break;
+    case 'r':
+        set_object_position_zspeed(&scene.aircraft, speed);
+        break;
+    case 'c':
+        set_object_position_zspeed(&scene.aircraft, -speed);
+        break;
+    case 'u':
+        set_camera_position_zspeed(&camera, speed);
+        break;
+    case 'i':
+        set_camera_position_zspeed(&camera, -speed);
+        break;
+    case 'j':
         set_camera_position_xspeed(&camera, speed);
         break;
     case 'k':
-        set_object_position_yspeed(&scene.aircraft, -speed);
         set_camera_position_xspeed(&camera, -speed);
         break;
     case 'l':
-       move_camera_behind_object(&camera, &scene.aircraft);
-      break;
+        lock_camera(&camera);
+        break;
     case '+':
         change_lighting(&scene, 0.1);
         break;
     case '-':
         change_lighting(&scene, -0.1);
         break;
-    case 't':
+    case 'f':
         change_fog_density(&scene, 0.01);
         break;
-    case 'z':
+    case 'g':
         change_fog_density(&scene, -0.01);
         break;
     }
@@ -101,12 +120,26 @@ void keyboard_up(unsigned char key, int x, int y)
     switch (key) {
     case 'w':
     case 's':
-        set_camera_position_yspeed(&camera, 0.0);
         set_object_position_xspeed(&scene.aircraft, 0);
         break;
-    case 'i':
-    case 'k':
+    case 'a':
+    case 'd':
+        set_object_rotation_speed(&scene.aircraft, 0, 0, 0);
+        break;
+    case 'q':
+    case 'e':
         set_object_position_yspeed(&scene.aircraft, 0);
+        break;
+    case 'r':
+    case 'c':
+        set_object_position_zspeed(&scene.aircraft, 0);
+        break;
+    case 'u':
+    case 'i':
+        set_camera_position_zspeed(&camera, 0);
+        break;
+    case 'j':
+    case 'k':
         set_camera_position_xspeed(&camera, 0);
         break;
     }
@@ -120,24 +153,16 @@ void ProcessSpecialKeys(unsigned char key, int x, int y)
 
     switch (key) {
     case GLUT_KEY_UP:
-        set_camera_position_zspeed(&camera, speed);
-        set_object_position_zspeed(&scene.aircraft, speed);
+        set_camera_position_yspeed(&camera, speed);
         break;
     case GLUT_KEY_DOWN:
-        set_camera_position_zspeed(&camera, -speed);
-        set_object_position_zspeed(&scene.aircraft, -speed);
+        set_camera_position_yspeed(&camera, -speed);
         break;
     case GLUT_KEY_LEFT:
-        set_camera_position_xspeed(&camera, -2*M_PI*10/(4*1.0005));
         set_camera_rotation_speed(&camera, 0, 0, 30*speed);
-        // asdasd(&camera, 30*speed, -2*M_PI*10/4);
-        set_object_rotation_speed(&scene.aircraft, 0, 30*speed, 0);
         break;
     case GLUT_KEY_RIGHT:
-        set_camera_position_xspeed(&camera, 2*M_PI*10/(4*1.0005));
         set_camera_rotation_speed(&camera, 0, 0, -30*speed);
-        // asdasd(&camera, -30*speed, 2*M_PI*10/4);
-        set_object_rotation_speed(&scene.aircraft, 0, -30*speed, 0);
         break;
     case GLUT_KEY_F1:
         if (is_preview_visible) {
@@ -159,14 +184,11 @@ void ReleaseSpecialKeys(unsigned char key, int x, int y)
     switch (key) {
     case GLUT_KEY_UP:
     case GLUT_KEY_DOWN:
-        set_camera_position_zspeed(&camera, 0.0);
-        set_object_position_zspeed(&scene.aircraft, 0);
+        set_camera_position_yspeed(&camera, 0.0);
         break;
     case GLUT_KEY_LEFT:
     case GLUT_KEY_RIGHT:
-        set_camera_position_xspeed(&camera, 0);
         set_camera_rotation_speed(&camera, 0, 0, 0);
-        set_object_rotation_speed(&scene.aircraft, 0, 0, 0);
         break;
     }
 
@@ -185,6 +207,7 @@ void idle()
 
     update_camera(&camera, elapsed_time);
     update_scene(&scene, elapsed_time);
+    move_camera_behind_object(&camera, &scene.aircraft);
 
     glutPostRedisplay();
 }

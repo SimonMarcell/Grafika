@@ -55,12 +55,9 @@ void change_lighting(Scene *scene, float change){
 
 void draw_scene(const Scene *scene)
 {
-    int i, j, k;
     draw_object(&scene->aircraft);
     draw_object(&scene->landscape);
     draw_object(&scene->water);
-    draw_skybox(&scene->skybox);
-    draw_origin();
     draw_skybox(&scene->skybox);
     set_lighting(scene->lighting);
     if(scene->fog_density>0){
@@ -71,23 +68,9 @@ void draw_scene(const Scene *scene)
         remove_fog();
     }
     
-
-    for (i = 0; i < 7; i++)
-    {
-        for (j = 0; j < 7; j++)
-        {
-            for (k = 0; k < 7; k++)
-            {
-                glPushMatrix();
-                glTranslatef(i-3, j-3, k-3);
-                draw_sphere();
-                glPopMatrix();
-            }
-        }
-    }
     // printf("object z position: %f\n", scene->aircraft.position.z);
     // printf("object y rotation: %f\n", scene->aircraft.rotation.y + 90.0);
-    printf("fog density: %f\n", scene->fog_density);
+    // printf("fog density: %f\n", scene->fog_density);
 
 }
 
@@ -179,10 +162,12 @@ void move_camera_behind_object(Camera* camera, Object* object){
     double angle;
     angle = degree_to_radian(object->rotation.y + 90.0);
 
-    camera->rotation.x = object->rotation.x - 90;
+    if (camera->lock == 1)
+    {camera->rotation.x = object->rotation.x - 90;
     camera->rotation.y = object->rotation.z;
     camera->rotation.z = object->rotation.y + 90;
     camera->position.x = object->position.x - 10*cos(angle);
     camera->position.y = object->position.y - 10*sin(angle);
     camera->position.z = object->position.z + 2;
+    }
 }

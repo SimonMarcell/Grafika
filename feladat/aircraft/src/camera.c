@@ -14,6 +14,7 @@ void init_camera(Camera* camera)
     camera->position_speed.x = 0.0;
     camera->position_speed.y = 0.0;
     camera->position_speed.z = 0.0;
+    camera->lock = 1;
 }
 
 void update_camera(Camera* camera, double time)
@@ -169,7 +170,10 @@ void set_camera_rotation_speed(Camera* camera, double x_speed, double y_speed, d
     camera->rotation_speed.z = z_speed;
 }
 
-void asdasd(Camera* camera, double z_speed, double x_speed){
-    camera->position_speed.x = x_speed;
-    camera->rotation_speed.z = z_speed;
+void lock_camera(Camera* camera){
+    if (camera->lock == 1) {
+        camera->lock = 0;
+    } else {
+        camera->lock = 1;
+    }
 }

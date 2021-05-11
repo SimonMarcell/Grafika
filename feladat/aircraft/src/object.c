@@ -84,8 +84,8 @@ void update_object(Object* object, double time){
     double angle;
     double side_angle;
 
-    angle = degree_to_radian(object->rotation.z);
-    side_angle = degree_to_radian(object->rotation.y + 90.0);
+    angle = degree_to_radian(object->rotation.y);
+    side_angle = degree_to_radian(object->rotation.y + 90);
 
     // object->position.x += cos(side_angle) * cos(angle) * object->position_speed.y * time;
     // object->position.y += cos(side_angle) * sin(angle) * object->position_speed.y * time;
@@ -94,8 +94,8 @@ void update_object(Object* object, double time){
     // object->position.z += object->position_speed.z * time;
 
     translate_object(object,
-        cos(side_angle) * object->position_speed.x * time + sin(side_angle) * object->position_speed.y * time,
-        sin(side_angle) * object->position_speed.x * time + cos(side_angle) * object->position_speed.y * time,
+        cos(side_angle) * object->position_speed.x * time - cos(angle) * object->position_speed.y * time,
+        sin(side_angle) * object->position_speed.x * time - sin(angle) * object->position_speed.y * time,
         object->position_speed.z * time);
     rotate_object(object, object->rotation_speed.x * time, object->rotation_speed.y * time, object->rotation_speed.z * time);
 }

@@ -13,6 +13,7 @@ typedef struct Camera
     vec3 rotation;
     vec3 position_speed;
     vec3 rotation_speed;
+    int lock;
 } Camera;
 
 /**
@@ -65,5 +66,7 @@ void set_camera_rotation_speed(Camera* camera, double x_speed, double y_speed, d
 void move_camera_to_aircraft(Camera* camera);
 
 void move_camera_from_aircraft(Camera* camera);
+
+void lock_camera(Camera* camera);
 
 #endif /* CAMERA_H */
