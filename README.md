@@ -21,10 +21,10 @@ K - move right
 U - ascend  
 I - descend  
 
-Miscellaneous:
-F1 - help menu
-L - lock/unlock camera
-"+" - increase the intensity of lighting
-"-" - decrease the intensity of lighting
-F - increase fog density
+Miscellaneous:  
+F1 - help menu  
+L - lock/unlock camera  
+"+" - increase the intensity of lighting  
+"-" - decrease the intensity of lighting  
+F - increase fog density  
 G - decrease fog density
