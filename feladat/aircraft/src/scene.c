@@ -28,7 +28,7 @@ void init_scene(Scene *scene)
     set_object_rotation_speed(&scene->moon, 90, 90, 90);
     scene->moon.texture_id = load_texture("models/moon2.png");
 
-    scene->helpmenu.texture_id = load_texture("models/helpmenu.png");
+    scene->helpmenu.texture_id = load_texture("models/helpmenu.jpg");
     
     scene->lighting = 0.5;
     scene->fog_density = 0.0;
