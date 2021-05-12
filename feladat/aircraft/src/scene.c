@@ -23,9 +23,9 @@ void init_scene(Scene *scene)
     set_rotation(&scene->water, 90, -90, 0);
     scene->water.texture_id = load_texture("models/water.jpg");
 
-    load_model(&scene->moon.model, "models/moon.obj");
+    load_model(&scene->moon.model, "models/moon2.obj");
     set_position(&scene->moon, 1.5, -1, 3.5);
-    set_object_rotation_speed(&scene->moon, 90, 90, 90);
+    set_object_rotation_speed(&scene->moon, 0, 0, 30);
     scene->moon.texture_id = load_texture("models/moon2.png");
 
     scene->helpmenu.texture_id = load_texture("models/helpmenu.jpg");
@@ -88,7 +88,7 @@ void draw_scene(const Scene *scene)
 void update_scene(Scene* scene, double time){
     update_object(&scene->aircraft, time);
     update_object(&scene->water, time);
-    //update_object(&scene->moon, time);
+    update_object(&scene->moon, time);
 }
 
 void draw_origin()
