@@ -10,6 +10,7 @@ typedef struct Scene
     Object aircraft;
     Object landscape;
     Object water;
+    Object moon;
     Object helpmenu;
     float lighting;
     float fog_density;

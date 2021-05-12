@@ -8,7 +8,7 @@ void init_scene(Scene *scene)
 {
     load_model(&scene->aircraft.model, "models/aircraft.obj");
     set_rotation(&scene->aircraft, 90, -90, 0);
-    set_position(&scene->aircraft, 0, 0, 3);
+    set_position(&scene->aircraft, 0, 0, 30);
     scene->aircraft.texture_id = load_texture("models/aircraft.jpg"); 
     set_object_position_xspeed(&scene->aircraft, 0);
     set_object_position_yspeed(&scene->aircraft, 0);
@@ -23,7 +23,12 @@ void init_scene(Scene *scene)
     set_rotation(&scene->water, 90, -90, 0);
     scene->water.texture_id = load_texture("models/water.jpg");
 
-    scene->helpmenu.texture_id = load_texture("models/helpmenu.jpg");
+    load_model(&scene->moon.model, "models/moon.obj");
+    set_position(&scene->moon, 1.5, -1, 3.5);
+    set_object_rotation_speed(&scene->moon, 90, 90, 90);
+    scene->moon.texture_id = load_texture("models/moon2.png");
+
+    scene->helpmenu.texture_id = load_texture("models/helpmenu.png");
     
     scene->lighting = 0.5;
     scene->fog_density = 0.0;
@@ -56,8 +61,14 @@ void change_lighting(Scene *scene, float change){
 void draw_scene(const Scene *scene)
 {
     draw_object(&scene->aircraft);
+    set_object_position_zspeed(&scene->water, sin(glutGet(GLUT_ELAPSED_TIME)/5000)/10);
+
+    glPushMatrix();
+    glScalef(10.0f, 10.0f, 10.0f);
     draw_object(&scene->landscape);
     draw_object(&scene->water);
+    draw_object(&scene->moon);
+    glPopMatrix();
     draw_skybox(&scene->skybox);
     set_lighting(scene->lighting);
     if(scene->fog_density>0){
@@ -76,6 +87,8 @@ void draw_scene(const Scene *scene)
 
 void update_scene(Scene* scene, double time){
     update_object(&scene->aircraft, time);
+    update_object(&scene->water, time);
+    //update_object(&scene->moon, time);
 }
 
 void draw_origin()
